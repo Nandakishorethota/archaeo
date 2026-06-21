@@ -1,0 +1,82 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual Environments
+
+venv/
+.venv/
+env/
+myenv/
+
+# Environment Variables
+
+.env
+.env.local
+.env.*
+!.env.example
+
+# Databases
+
+*.db
+*.sqlite3
+
+# Logs
+
+*.log
+logs/
+
+# Node
+
+node_modules/
+dist/
+build/
+.vite/
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS
+
+.DS_Store
+Thumbs.db
+
+# Coverage
+
+.coverage
+htmlcov/
+.pytest_cache/
+coverage/
+
+# Cache
+
+.cache/
+.mypy_cache/
+
+# Temporary
+
+*.tmp
+*.temp
+
+# Secrets
+
+*.pem
+*.key
+*.crt
+
+# AI Tools
+
+.opencode/
+.claude/
+
+# Archives
+
+*.zip
+*.tar.gz
+*.rar
