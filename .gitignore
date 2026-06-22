@@ -80,3 +80,4 @@ coverage/
 *.zip
 *.tar.gz
 *.rar
+test.py

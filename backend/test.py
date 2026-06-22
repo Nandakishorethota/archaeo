@@ -1,22 +1,19 @@
-from dotenv import load_dotenv
-import os
+from app.config import OPENROUTER_API_KEY
 from openai import OpenAI
 
-load_dotenv()
+print("KEY:", OPENROUTER_API_KEY[:20])
+print("LEN:", len(OPENROUTER_API_KEY))
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY")
+    api_key=OPENROUTER_API_KEY,
 )
 
-completion = client.chat.completions.create(
+response = client.chat.completions.create(
     model="openai/gpt-oss-120b",
     messages=[
-        {
-            "role": "user",
-            "content": "hello"
-        }
+        {"role": "user", "content": "hello"}
     ]
 )
 
-print(completion.choices[0].message.content)
+print(response.choices[0].message.content)
