@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { BookOpen, Code, Database, FileText, Rocket, Layers, GitBranch, ChevronRight, ChevronDown, Server, Monitor, Settings, Brain, Clock, Gauge, ArrowRight, Lightbulb, Target, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { useRepositorySummary, useArchitectureTree } from "../hooks/useRepository";
+import { AskAiSection } from "../components/AskAiSection"; // Add this import
 
 function SummarySkeleton() {
   return (
@@ -426,6 +427,8 @@ export function OverviewPanel() {
           </div>
         </div>
       )}
+
+      <AskAiSection repoId={id} />
     </div>
   );
 }

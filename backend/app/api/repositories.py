@@ -269,6 +269,58 @@ def answer_repository(
     }
 
 
+@router.post("/repositories/{repository_id}/stream-answer")
+def stream_answer_repository(
+    repository_id: int,
+    request: QuestionRequest,
+    db: Session = Depends(get_db)
+):
+    repository = (
+        db.query(Repository)
+        .filter(Repository.id == repository_id)
+        .first()
+    )
+
+    if not repository:
+        raise HTTPException(status_code=404, detail="Repository not found")
+
+    result = RepositoryService.answer_question(
+        db, repository_id, request.question
+    )
+
+    return {
+        "question": request.question,
+        "answer": result["answer"],
+        "files": result["files"]
+    }
+
+
+@router.post("/repositories/{repository_id}/ai-answer")
+def ai_answer_repository(
+    repository_id: int,
+    request: QuestionRequest,
+    db: Session = Depends(get_db)
+):
+    repository = (
+        db.query(Repository)
+        .filter(Repository.id == repository_id)
+        .first()
+    )
+
+    if not repository:
+        raise HTTPException(status_code=404, detail="Repository not found")
+
+    result = RepositoryService.answer_question_with_ai(
+        db, repository_id, request.question
+    )
+
+    return {
+        "question": request.question,
+        "answer": result["answer"],
+        "files": result["files"]
+    }
+
+
 @router.get("/repositories/{repository_id}/architecture-tree")
 def get_architecture_tree(
     repository_id: int,

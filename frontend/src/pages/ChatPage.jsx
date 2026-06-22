@@ -60,11 +60,8 @@ export function ChatPage() {
       const response = await askQuestion(questionText);
       const aiMessage = {
         role: "assistant",
-        content: response.total_matches > 0
-          ? `Found ${response.total_matches} relevant file(s) for your question.`
-          : "No relevant files found for this question.",
-        files: response.matches?.map(m => m.path) || [],
-        snippets: response.matches || [],
+        content: response.answer || "No answer provided.",
+        files: response.files || [],
       };
       setConversation((prev) => [...prev, aiMessage]);
     } catch (error) {
@@ -73,7 +70,6 @@ export function ChatPage() {
         content: "Sorry, I couldn't process that question. Please try again.",
         error: true,
         files: [],
-        snippets: [],
       };
       setConversation((prev) => [...prev, errorMessage]);
     }
@@ -141,40 +137,26 @@ export function ChatPage() {
                   </div>
                 )}
                 <p className={`text-sm leading-relaxed ${msg.role === "user" ? "text-white" : "text-gray-700"}`}>
-                  {msg.content}
-                </p>
-                {msg.snippets && msg.snippets.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-gray-200 space-y-2">
-                    <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Relevant files</p>
-                    {msg.snippets.map((snippet, i) => (
-                      <div key={i} className="bg-white border border-gray-100 rounded-lg p-2.5">
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <FileText className="h-3 w-3 text-gray-400" />
-                          <span className="text-[11px] font-medium text-gray-900 font-mono">{snippet.path}</span>
-                          <span className="text-[9px] text-gray-400 ml-auto">score: {snippet.score}</span>
-                        </div>
-                        {snippet.snippet && (
-                          <p className="text-[10px] text-gray-500 font-mono line-clamp-2 mt-1">{snippet.snippet}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {msg.files && msg.files.length > 0 && !msg.snippets && (
-                  <div className="mt-2 pt-2 border-t border-gray-200 space-y-1">
-                    <p className="text-[10px] text-gray-400 font-medium">Referenced files</p>
-                    {msg.files.map((file, i) => (
+                {msg.content}
+              </p>
+              {msg.files && msg.files.length > 0 && (
+                <div className="mt-2 pt-2 border-t border-gray-200 space-y-1">
+                  <p className="text-[10px] text-gray-400 font-medium">Referenced files</p>
+                  {msg.files.map((file, i) => {
+                    const filePath = typeof file === 'string' ? file : file.path;
+                    return (
                       <div key={i} className="flex items-center gap-1.5 text-[11px]">
                         <FileText className="h-3 w-3 text-gray-400" />
-                        <span className="text-gray-500 font-mono">{file}</span>
+                        <span className="text-gray-500 font-mono">{filePath}</span>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
       )}
 
       <div className="border border-gray-200 rounded-xl p-1.5 focus-within:border-gray-400 transition-colors">

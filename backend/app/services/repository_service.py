@@ -227,6 +227,57 @@ class RepositoryService:
         }
 
     @staticmethod
+    def answer_question_with_ai(
+        db: Session, repository_id: int, question: str
+    ) -> Dict:
+        from app.services.ai_summary_service import ai_summary_service
+        
+        files = RepositoryService.get_files_by_repository(db, repository_id)
+        
+        important_files = []
+        for file in files[:3]:
+            if file.content:
+                important_files.append(f"{file.path}: {file.content[:80]}...")
+        
+        prompt = f"""Answer this question about the repository in 2-3 lines:
+
+Question: {question}
+
+Repository files:
+{chr(10).join(important_files)}
+
+Provide a concise 2-3 line answer based on the repository content. Answer about both frontend and backend components equally. If the question cannot be answered from the available content, please say so."""
+        
+        try:
+            response = ai_summary_service.client.chat.completions.create(
+                model="openai/gpt-oss-120b",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are an expert software architect. Answer questions about code repositories based on their content. Keep answers concise (2-3 lines). Answer equally about both frontend and backend components."
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                temperature=0.2,
+                max_tokens=300,
+            )
+            
+            answer = response.choices[0].message.content
+            
+            return {
+                "answer": answer,
+                "files": important_files
+            }
+        except Exception as e:
+            return {
+                "answer": f"Error generating AI answer: {str(e)}",
+                "files": []
+            }
+
+    @staticmethod
     def is_valid_file(path: str) -> bool:
         return (
             path.endswith(RepositoryService.ALLOWED_EXTENSIONS)
