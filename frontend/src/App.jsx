@@ -11,9 +11,6 @@ import HomePage from "./pages/HomePage";
 import { OverviewPanel } from "./pages/RepositoryOverview";
 import { LearningPathPage } from "./pages/LearningPathPage";
 import { NextReadingsPage } from "./pages/NextReadingsPage";
-import { FilesPage } from "./pages/FilesPage";
-import { CommitsPage } from "./pages/CommitsPage";
-import { SearchPage } from "./pages/SearchPage";
 import { ChatPage } from "./pages/ChatPage";
 
 function App() {
@@ -52,18 +49,6 @@ function App() {
           <Route
             path="/repository/:id/next-readings"
             element={<NextReadingsPage />}
-          />
-          <Route
-            path="/repository/:id/files"
-            element={<FilesPage />}
-          />
-          <Route
-            path="/repository/:id/commits"
-            element={<CommitsPage />}
-          />
-          <Route
-            path="/repository/:id/search"
-            element={<SearchPage />}
           />
           <Route
             path="/repository/:id/chat"

@@ -9,6 +9,7 @@ from app.models.repository import Repository
 from app.models.commit import Commit
 from app.models.file import File
 from app.services.architecture_service import ArchitectureService
+from app.services.tree_service import TreeService
 
 from app.database.dependencies import get_db
 
@@ -159,6 +160,26 @@ def get_file_tree(
     db: Session = Depends(get_db)
 ):
     return RepositoryService.get_file_paths_by_repository(db, repository_id)
+
+
+@router.get("/repositories/{repository_id}/tree")
+def get_repository_tree(
+    repository_id: int,
+    db: Session = Depends(get_db)
+):
+    repository = (
+        db.query(Repository)
+        .filter(Repository.id == repository_id)
+        .first()
+    )
+
+    if not repository:
+        raise HTTPException(status_code=404, detail="Repository not found")
+
+    files = RepositoryService.get_files_by_repository(db, repository_id)
+    file_paths = [{"path": f.path, "type": "file"} for f in files]
+    
+    return TreeService.build_tree_structure(file_paths)
 
 
 @router.get("/repositories/{repository_id}/search-content")

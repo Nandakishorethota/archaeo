@@ -1,6 +1,6 @@
 # archaeo 🚧
 
-Software Archaeologist is an AI-powered developer tool designed to help engineers understand unfamiliar codebases faster.
+archaeo is an AI-powered developer tool designed to help engineers understand unfamiliar codebases faster.
 
 The goal is simple:
 

@@ -89,13 +89,13 @@ export function AskAiSection({ repoId }) {
                 <p className={`text-sm leading-relaxed ${msg.role === "user" ? "text-white" : "text-gray-700"}`}>
                   {msg.content}
                 </p>
-                {msg.files && msg.files.length > 0 && (
+                {msg.files && msg.files.filter(f => f && (typeof f === 'string' ? f.trim() : f.path && f.path.trim())).length > 0 && (
                   <div className="mt-3 pt-3 border-t border-gray-200 space-y-2">
                     <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">Referenced files</p>
-                    {msg.files.map((file, i) => (
+                    {msg.files.filter(f => f && (typeof f === 'string' ? f.trim() : f.path && f.path.trim())).map((file, i) => (
                       <div key={i} className="flex items-center gap-1.5 text-[11px]">
                         <FileText className="h-3 w-3 text-gray-400" />
-                        <span className="text-gray-500 font-mono">{file.path}</span>
+                        <span className="text-gray-500 font-mono">{typeof file === 'string' ? file : file.path}</span>
                       </div>
                     ))}
                   </div>

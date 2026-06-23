@@ -139,10 +139,10 @@ export function ChatPage() {
                 <p className={`text-sm leading-relaxed ${msg.role === "user" ? "text-white" : "text-gray-700"}`}>
                 {msg.content}
               </p>
-              {msg.files && msg.files.length > 0 && (
+              {msg.files && msg.files.filter(f => f && (typeof f === 'string' ? f.trim() : f.path && f.path.trim())).length > 0 && (
                 <div className="mt-2 pt-2 border-t border-gray-200 space-y-1">
                   <p className="text-[10px] text-gray-400 font-medium">Referenced files</p>
-                  {msg.files.map((file, i) => {
+                  {msg.files.filter(f => f && (typeof f === 'string' ? f.trim() : f.path && f.path.trim())).map((file, i) => {
                     const filePath = typeof file === 'string' ? file : file.path;
                     return (
                       <div key={i} className="flex items-center gap-1.5 text-[11px]">
