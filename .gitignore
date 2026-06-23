@@ -5,79 +5,93 @@
 *.pyo
 *.pyd
 *.so
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Virtual Environments
 
 venv/
-.venv/
 env/
 myenv/
+.venv/
 
 # Environment Variables
 
 .env
-.env.local
 .env.*
 !.env.example
 
-# Databases
+# Database
 
 *.db
 *.sqlite3
 
 # Logs
 
-*.log
 logs/
+*.log
 
-# Node
+# Node.js
 
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# React / Vite
+
+frontend/dist/
+frontend/.vite/
 dist/
 build/
-.vite/
 
 # IDE
 
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# OS
+# OS Files
 
 .DS_Store
 Thumbs.db
 
-# Coverage
-
-.coverage
-htmlcov/
-.pytest_cache/
-coverage/
-
-# Cache
-
-.cache/
-.mypy_cache/
-
-# Temporary
-
-*.tmp
-*.temp
-
-# Secrets
-
-*.pem
-*.key
-*.crt
-
-# AI Tools
+# OpenCode
 
 .opencode/
-.claude/
 
-# Archives
+# Coverage
 
-*.zip
-*.tar.gz
-*.rar
-test.py
+coverage/
+.coverage.*
+
+# Temporary Files
+
+tmp/
+temp/
+*.tmp
+
+# Test Outputs
+
+test-results/
+playwright-report/
+
+# Git Merge Conflicts Backups
+
+*.orig
+*.rej
+
+# Local Documentation Artifacts
+
+docs/build/
+
+# Keep docs source
+
+!docs/**/*.md
+!README.md
+INTENT_RANKING_FIX_SUMMARY.md
+test_file_awareness.py
+test_improvements.py
